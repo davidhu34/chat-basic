@@ -3,6 +3,7 @@ const initChat = {
         '1': {
             id: '1',
             time: '00:00',
+            room: '1',
             from: '1',
             type: 'text',
             data: 'hello i\'m message 1'
@@ -10,6 +11,7 @@ const initChat = {
         '2': {
             id: '2',
             time: '00:12',
+            room: '1',
             from: '1',
             type: 'text',
             data: 'greetings i\'m message 2'
@@ -17,6 +19,7 @@ const initChat = {
         '3': {
             id: '3',
             time: '00:34',
+            room: '1',
             from: '2',
             type: 'text',
             data: 'reply with i\'m message 3'
@@ -44,8 +47,51 @@ const initChat = {
         }
     }
 }
-export const chat = ( state = initChat, action ) => {
-    switch ( action.type ) {
+let tempCount = 3
+
+const messages = (state, action) => {
+    switch (action.type) {
+        case 'INPUT_MESSAGE_SEND':
+            return {
+                ...state,
+                [action.message.id]: action.message
+            }
+        default:
+            return state
+    }
+}
+const rooms = (state, action) => {
+    switch (action.type) {
+        case 'INPUT_MESSAGE_SEND':
+            const room = state[action.message.room]
+            const id = action.message.id
+            return {
+                ...state,
+                [room.id]: {
+                    ...room,
+                    messages: [...room.messages, id]
+                }
+            }
+        default:
+            return state
+    }
+}
+export const chat = (state = initChat, action) => {
+    switch (action.type) {
+        case 'INPUT_MESSAGE_SEND':
+            tempCount += 1
+            const actionPass = {
+                ...action,
+                message: {
+                    id: String(tempCount),
+                    ...action.message
+                }
+            }
+            return {
+                ...state,
+                rooms: rooms(state.rooms, actionPass),
+                messages: messages(state.messages, actionPass)
+            }
         default:
             return state
     }
