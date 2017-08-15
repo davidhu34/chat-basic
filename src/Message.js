@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
 
 const messageContent = m => {
     switch (m.type) {
@@ -7,28 +8,22 @@ const messageContent = m => {
             break
         case 'text':
         default:
-            return <div>
+            return <span>
                 {m.data}
-            </div>
+            </span>
     }
 }
 
 const Message = ({
-    message, isMine, selected,
-    clickMessage
+    message, isMine, selected
 }) => {
 
-    const time = <div>
-        { message.time }
-    </div>
-    const msg = messageContent(message)
-
     return <div style={{
-            display: 'inline',
+            display: 'inline-block',
+            wordBreak: 'break-all',
             color: selected? 'blue': 'black'
-        }}
-        onClick={ (e) => clickMessage(message) }>
-        { isMine? <span>{time}{msg}</span>: <span>{msg}{time}</span> }
+        }}>
+        { messageContent(message) }
     </div>
 
 }

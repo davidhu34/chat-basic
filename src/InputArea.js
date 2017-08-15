@@ -10,7 +10,6 @@ const TextInput = ({
 	const send = e => {
 		e.preventDefault()
 		sendInputMessage({
-			time: 'wow',
 			room: selectedRoom,
 			from: user,
 			type: 'text',
@@ -21,6 +20,7 @@ const TextInput = ({
 	let input
 
 	return <div style={{
+		width:'100%',
 		position: 'absolute',
 		bottom: 0
 	}}>

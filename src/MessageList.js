@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import moment from 'moment'
+
 import Message from './Message'
 import { selectMessage } from './actions'
 
@@ -25,16 +27,41 @@ class MessageList extends Component {
                 width: '100%',
                 overflowY: 'scroll',
             }}>
+            <table style={{ width: '100%' }}><tbody>
             {
-                this.displayList(messages).map( m =>
-                    <Message key={m.id}
+                this.displayList(messages).map( m => {
+                    const isMine = m.from === user
+                    const LR = isMine? 'right': 'left'
+                    const time = <span>
+                        { moment(m.time).format('HH:mm') }
+                    </span>
+                    const msg = <Message key={m.id}
                         message={m}
-                        isMine={ m.from === user }
-                        selected={ m.id === selected }
-                        clickMessage={selectMessage}
-                    />
-                )
+                        isMine={isMine}
+                        selected={ m.id === selected } />
+
+                    let first, second
+                    if (isMine) {
+                        first = time
+                        second = msg
+                    } else {
+                        first = msg
+                        second = time
+                    }
+
+                    return <tr style={{
+                            maxWidth: '80%',
+                            float: LR,
+                            align: LR,
+                            clear: 'both'
+                        }}
+                        onClick={ (e) => selectMessage(e) }>
+                        <td>{first}</td>
+                        <td>{second}</td>
+                    </tr>
+                })
             }
+            </tbody></table>
         </div>
     }
 }

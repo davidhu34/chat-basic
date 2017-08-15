@@ -1,8 +1,10 @@
+import moment from 'moment'
+
 const initChat = {
     messages: {
         '1': {
             id: '1',
-            time: '00:00',
+            time: 1318874398806,
             room: '1',
             from: '1',
             type: 'text',
@@ -10,7 +12,7 @@ const initChat = {
         },
         '2': {
             id: '2',
-            time: '00:12',
+            time: 1318871398801,
             room: '1',
             from: '1',
             type: 'text',
@@ -18,7 +20,7 @@ const initChat = {
         },
         '3': {
             id: '3',
-            time: '00:34',
+            time: 1308874398701,
             room: '1',
             from: '2',
             type: 'text',
@@ -83,8 +85,9 @@ export const chat = (state = initChat, action) => {
             const actionPass = {
                 ...action,
                 message: {
+                    ...action.message,
                     id: String(tempCount),
-                    ...action.message
+                    time: moment().valueOf(),
                 }
             }
             return {
