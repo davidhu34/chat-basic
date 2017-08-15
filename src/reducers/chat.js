@@ -30,6 +30,7 @@ const initChat = {
     rooms: {
         '1': {
             id: '1',
+            name: null,
             users: ['1','2'],
             messages: ['1','2','3']
         }

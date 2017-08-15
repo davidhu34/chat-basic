@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
 import { freshStore } from './configureStore'
-import App from './App'
+import App from './components/App'
 
 const store = freshStore()
 

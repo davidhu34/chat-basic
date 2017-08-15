@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 
 import Message from './Message'
-import { selectMessage } from './actions'
 
 class MessageList extends Component {
     scrollToBottom () {
@@ -20,25 +19,31 @@ class MessageList extends Component {
   	    this.scrollToBottom();
   	}
     render () {
-        const { messages, user, selected, selectMessage } = this.props
+        const {
+            messages, user, selectedMessage,
+            selectMessage
+        } = this.props
 
-        return <div ref="scroll"
+        return <div className="MessageList"
+            ref="scroll"
             style={{
                 width: '100%',
+                height: 'auto',
                 overflowY: 'scroll',
             }}>
             <table style={{ width: '100%' }}><tbody>
             {
                 this.displayList(messages).map( m => {
                     const isMine = m.from === user
+                    const selected = m.id === selectedMessage
                     const LR = isMine? 'right': 'left'
+
                     const time = <span>
                         { moment(m.time).format('HH:mm') }
                     </span>
-                    const msg = <Message key={m.id}
-                        message={m}
+                    const msg = <Message message={m}
                         isMine={isMine}
-                        selected={ m.id === selected } />
+                        selected={ selected } />
 
                     let first, second
                     if (isMine) {
@@ -49,13 +54,15 @@ class MessageList extends Component {
                         second = time
                     }
 
-                    return <tr style={{
+                    return <tr key={m.id}
+                        style={{
                             maxWidth: '80%',
+                            color: selected? 'blue': 'black',
                             float: LR,
                             align: LR,
                             clear: 'both'
                         }}
-                        onClick={ (e) => selectMessage(e) }>
+                        onClick={ (e) => selectMessage(m) }>
                         <td>{first}</td>
                         <td>{second}</td>
                     </tr>
@@ -65,17 +72,19 @@ class MessageList extends Component {
         </div>
     }
 }
-
+export default MessageList
+/*
 export default connect(
     ({ chat, client }) => {
         return {
             messages: chat.rooms[client.selectedRoom].messages
                 .map( m => chat.messages[m] ),
             user: client.user,
-            selected: client.selectedMessage
+            selectedMessage: client.selectedMessage
         }
     },
     dispatch => ({
         selectMessage: (message) => dispatch(selectMessage(message))
     })
 )(MessageList)
+*/

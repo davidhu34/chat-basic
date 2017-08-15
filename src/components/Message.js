@@ -14,14 +14,11 @@ const messageContent = m => {
     }
 }
 
-const Message = ({
-    message, isMine, selected
-}) => {
+const Message = ({ message }) => {
 
     return <div style={{
             display: 'inline-block',
             wordBreak: 'break-all',
-            color: selected? 'blue': 'black'
         }}>
         { messageContent(message) }
     </div>

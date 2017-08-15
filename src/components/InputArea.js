@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { updateInputMessage, sendInputMessage } from './actions'
-
 const TextInput = ({
 	user, selectedRoom, selectedMessage, inputText,
 	updateInputMessage, sendInputMessage
@@ -19,11 +17,12 @@ const TextInput = ({
 	}
 	let input
 
-	return <div style={{
-		width:'100%',
-		position: 'absolute',
-		bottom: 0
-	}}>
+	return <div className="InputArea"
+		style={{
+			width:'100%',
+			position: 'absolute',
+			bottom: 0
+		}}>
 		<table style={{
 			width:'100%',
 			border: 'none',
@@ -38,7 +37,6 @@ const TextInput = ({
 			<textarea ref={ ref => { input = ref } }
 				style={{
 					width: '100%',
-					height: 'auto',
 					overflow: 'hidden',
 					resize: 'none',
 					border: 'none',
@@ -66,7 +64,8 @@ const TextInput = ({
 	</div>
 }
 
-
+export default TextInput
+/*
 export default connect(
 	state => state.client,
 	dispatch => ({
@@ -76,3 +75,4 @@ export default connect(
 			(message) => dispatch(updateInputMessage(message))
 	})
 )(TextInput)
+*/
